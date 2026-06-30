@@ -1,4 +1,4 @@
-# Singularity image distogram.sif : Residue-level IDR Prediction Pipeline
+# Singularity image spiral.sif : Residue-level IDR Prediction Pipeline
 
 Singularity image for residue-level IDP/IDR prediction into three classes:
 **Structure**, **Disorder**, **Disorder-Binding**.
@@ -12,6 +12,15 @@ Singularity image for residue-level IDP/IDR prediction into three classes:
 
 
 ## Usage
+
+### SPIRAL Singularity/Apptainer Image
+
+The pipeline uses same in a container image. You can download it from Zenodo:
+
+> **SPIRAL Apptainer/Singularity Image**
+> [https://zenodo.org/records/20842530](https://zenodo.org/records/20842530)
+
+Download the `.sif` file and place it in a location accessible from your compute nodes. 
 
 ### Basic command
 
