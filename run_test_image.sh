@@ -18,8 +18,7 @@ echo "AF2 job soumis : $AF2_JOB_ID"
 FINAL_OUTPUT="${AF2_OUTPUT_DIR}/final_output"
 mkdir -p "$FINAL_OUTPUT"          
 
-#SIF_PATH="perceptron_complete.sif"
-SIF_PATH="distogram.sif"
+SIF_PATH="spiral.sif"
 
 sbatch -p amig \
     --dependency=afterok:"$AF2_JOB_ID" \
