@@ -18,7 +18,7 @@ Singularity image for residue-level IDP/IDR prediction into three classes:
 The pipeline uses same in a container image. You can download it from Zenodo:
 
 > **SPIRAL Apptainer/Singularity Image**
-> [https://zenodo.org/records/20842530](https://zenodo.org/records/20842530)
+> [(https://zenodo.org/records/20842530)](https://zenodo.org/records/21098730)
 
 Download the `.sif` file and place it in a location accessible from your compute nodes. 
 
