@@ -73,7 +73,7 @@ Q9Y4L1,MSSQPILENVSFKTLNDSGIELIGKSNVSRLQKLVTQDFNEQMRELLKAQLMQQ...
 ```
 <output_dir>/
 ├── P04637.tsv
-└── Q9Y4L1.tsv              # Per-protein inference time
+└── Q9Y4L1.tsv              
 ```
 
 ### tsv with CAID format
@@ -81,7 +81,7 @@ Q9Y4L1,MSSQPILENVSFKTLNDSGIELIGKSNVSRLQKLVTQDFNEQMRELLKAQLMQQ...
 ```
 # uid=P04637
 residue_index	score_disorder	score_binding	predicted_class
-    1	           0.682276	      0.491631	         1
+   1	           0.682276	      0.491631	         1
    2	           0.672031	      0.475615	         1
    3	           0.672628	      0.453714	         1
 ...
