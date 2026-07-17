@@ -87,9 +87,9 @@ residue_index	score_disorder	score_binding	predicted_class
 ...
 ```
 
-- score_disorder — probability of being disordered or disorder-binding (Task 1)
-- score_binding — probability of being a disorder-binding residue (Task 2)
-- predicted_class - 0 to 2 (0=structure; 1=disorder; 2=disorder-binding)
+- score_disorder : probability of being disordered or disorder-binding (Task 1)
+- score_binding : probability of being a disorder-binding residue (Task 2)
+- predicted_class : 0 to 2 (0=structure; 1=disorder; 2=disorder-binding)
 
 ---
 
