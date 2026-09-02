@@ -103,8 +103,8 @@ Columns: `position`, `X for all line`, `score [0-1]`, `binary_label`.
 |---|---|
 | Base image | `nvcr.io/nvidia/cuda:11.6.2-cudnn8-runtime-ubuntu20.04` |
 | Env `venv_idp` | Python 3.11 — distograms, prediction |
-| Scripts | `/opt/scripts/` |
-| ML models | `/opt/models/` |
+| Scripts | `/opt/scripts/` save in `src` |
+| ML models | `/opt/models/` save in `pretain_model` |
 
 ### Internal scripts
 
