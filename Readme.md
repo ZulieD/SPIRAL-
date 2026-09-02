@@ -1,4 +1,4 @@
-# Singularity image spiral.sif : Residue-level IDR Prediction Pipeline
+# Image singularity: docker for SPIRAL : Residue-level IDR Prediction Pipeline
 
 Singularity image for residue-level IDP/IDR prediction into three classes:
 **Structure**, **Disorder**, **Disorder-Binding**.
@@ -12,6 +12,32 @@ Singularity image for residue-level IDP/IDR prediction into three classes:
 
 
 ## Usage
+---
+### SPIRAL Docker Image 
+
+The pipeline can be use with a docker image. You can download it from HubDocker
+
+> **SPIRAL Docker Image**
+> ([https://hub.docker.com/r/zulied/idp_distogram](https://hub.docker.com/r/zulied/idp_distogram))
+
+Download with 
+
+```bash
+docker pull zulied/idp_distogram:v1.1
+```
+
+### Basic command 
+
+```bash
+docker run --gpus all \
+    -v <embeddings_dir>:<embeddings_dir> \
+    -v <output_dir>:<output_dir> \
+    zulied/idp_distogram:v1.1 \
+    prediction \
+    --embeddings <embeddings_dir> \
+    --csv <embeddings_dir>/proteins.csv \
+    --output <output_dir>
+```
 
 ### SPIRAL Singularity/Apptainer Image
 
@@ -34,7 +60,7 @@ singularity run --nv --no-home \
     --csv        <embeddings_dir>/proteins.csv \
     --output     <output_dir>
 ```
-
+---
 ### Available options
 
 | Option | Required | Description |
