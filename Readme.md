@@ -6,7 +6,6 @@ Singularity image for residue-level IDP/IDR prediction into three classes:
 ---
 ## Requirements
 
-- Singularity ≥ 3.8
 - Pre-computed AlphaFold2 outputs (distogram `.pickle` files per protein) --> can be run from our script `run_alphafold_cluster.sbatch`
 - Input CSV file with columns `protein_id` and `sequence` --> directly output by `run_alphafold_cluster.sbatch`
 
@@ -19,6 +18,14 @@ The pipeline can be use with a docker image. You can download it from HubDocker
 
 > **SPIRAL Docker Image**
 > ([https://hub.docker.com/r/zulied/idp_distogram](https://hub.docker.com/r/zulied/idp_distogram))
+
+### Requirements
+
+- Docker ≥ 19.03 (avec support --gpus)
+- NVIDIA Container Toolkit installé sur la machine hôte
+- Driver NVIDIA ≥ 510.39.01 (compatible CUDA 11.6.2)
+- Architecture : linux/amd64
+
 
 Download with 
 
@@ -47,6 +54,10 @@ The pipeline uses a container image. You can download it from Zenodo:
 > ([https://zenodo.org/records/21098730](https://zenodo.org/records/22247381))
 
 Download the `.sif` file and place it in a location accessible from your compute nodes. 
+
+### Requirements 
+
+- Singularity ≥ 3.8
 
 ### Basic command
 
