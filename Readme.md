@@ -21,10 +21,10 @@ The pipeline can be use with a docker image. You can download it from HubDocker
 
 ### Requirements
 
-- Docker ≥ 19.03 (avec support --gpus)
-- NVIDIA Container Toolkit installé sur la machine hôte
-- Driver NVIDIA ≥ 510.39.01 (compatible CUDA 11.6.2)
-- Architecture : linux/amd64
+- Docker ≥ 19.03 (with --gpus support)
+- NVIDIA Container Toolkit installed on the host machine
+- NVIDIA driver ≥ 510.39.01 (compatible with CUDA 11.6.2)
+- Architecture: linux/amd64
 
 
 Download with 
