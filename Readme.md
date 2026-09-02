@@ -72,24 +72,27 @@ Q9Y4L1,MSSQPILENVSFKTLNDSGIELIGKSNVSRLQKLVTQDFNEQMRELLKAQLMQQ...
 
 ```
 <output_dir>/
-├── P04637.tsv
-└── Q9Y4L1.tsv              
+├── disorder/
+│   └── <protein_id>.caid     # Task 1: Structure vs Disorder+Binding
+├── binding/
+    └── <protein_id>.caid     # Task 2: Disorder vs Disorder-Binding
+
 ```
 
-### tsv with CAID format
+### CAID format
 
 ```
-# uid=P04637
-residue_index	score_disorder	score_binding	predicted_class
-   1	           0.682276	      0.491631	         1
-   2	           0.672031	      0.475615	         1
-   3	           0.672628	      0.453714	         1
-...
+>P04637
+1    X    0.8923    1
+2    X    0.3210    0
+3    X    0.7841    1
+
 ```
 
-- score_disorder : probability of being disordered or disorder-binding (Task 1)
-- score_binding : probability of being a disorder-binding residue (Task 2)
-- predicted_class : 0 to 2 (0=structure; 1=disorder; 2=disorder-binding)
+Columns: `position`, `X for all line`, `score [0-1]`, `binary_label`.
+
+- **disorder/*.caid** — probability of being disordered or disorder-binding (Task 1)
+- **binding/*.caid** — probability of being a disorder-binding residue (Task 2)
 
 ---
 
