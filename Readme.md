@@ -1,4 +1,4 @@
-# Image singularity: docker for SPIRAL : Residue-level IDR Prediction Pipeline
+# Image singularity/docker for SPIRAL : Residue-level IDR Prediction Pipeline
 
 Singularity image for residue-level IDP/IDR prediction into three classes:
 **Structure**, **Disorder**, **Disorder-Binding**.
