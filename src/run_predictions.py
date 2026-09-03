@@ -264,6 +264,24 @@ def load_distogram_embeddings(h5_path: str, tag: str = "") -> dict:
     print(f"  [{tag}] {len(emb_dict)} protéines  ({Path(h5_path).name})")
     return emb_dict
 
+# ──────────────────────────────────────────────────────────────────────────────
+# CHARGEMENT DES SÉQUENCES (CSV produit par fasta_to_input.py)
+# ──────────────────────────────────────────────────────────────────────────────
+
+def load_csv_sequences(csv_path: str) -> dict[str, str]:
+    """
+    Charge le CSV produit par fasta_to_input.py.
+    Colonnes attendues : protein_id, sequence
+    Retourne : {protein_id: sequence}
+    """
+    import pandas as pd
+    df = pd.read_csv(csv_path)
+    if "protein_id" not in df.columns or "sequence" not in df.columns:
+        raise ValueError(
+            f"Le CSV {csv_path} doit contenir les colonnes 'protein_id' et 'sequence'. "
+            f"Colonnes trouvées : {list(df.columns)}"
+        )
+    return dict(zip(df["protein_id"].astype(str), df["sequence"].astype(str)))
 
 # ──────────────────────────────────────────────────────────────────────────────
 # PRÉDICTION TASK 1  (MLP, flat)
@@ -439,7 +457,6 @@ def write_caid(uid: str, result: dict, out_dir: Path,
 # ──────────────────────────────────────────────────────────────────────────────
 # POINT D'ENTRÉE
 # ──────────────────────────────────────────────────────────────────────────────
-
 def run(args):
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -453,6 +470,11 @@ def run(args):
     model_t2, scaler_t2, feat_dim_t2, window = load_task2_model(
         args.model_task2, args.window)
 
+    # ── Chargement des séquences depuis le CSV ────────────────────────────────
+    print(f"\nChargement des séquences : {args.csv}")
+    sequences = load_csv_sequences(args.csv)
+    print(f"  {len(sequences)} séquence(s) dans le CSV")
+
     # ── Chargement des embeddings (deux H5 distincts) ────────────────────────
     print("\nChargement des embeddings distogram")
     print(f"  Task1 H5 : {args.h5_task1}")
@@ -461,10 +483,11 @@ def run(args):
     print(f"  Task2 H5 : {args.h5_task2}")
     emb_t2_dict = load_distogram_embeddings(args.h5_task2, tag="Task2")
 
-    # Intersection des UIDs disponibles dans les deux fichiers
-    common_uids = sorted(set(emb_t1_dict) & set(emb_t2_dict))
-    only_t1     = set(emb_t1_dict) - set(emb_t2_dict)
-    only_t2     = set(emb_t2_dict) - set(emb_t1_dict)
+    # Intersection des UIDs disponibles dans les deux H5 ET dans le CSV
+    common_uids  = sorted(set(emb_t1_dict) & set(emb_t2_dict) & set(sequences))
+    only_t1      = set(emb_t1_dict) - set(emb_t2_dict)
+    only_t2      = set(emb_t2_dict) - set(emb_t1_dict)
+    no_seq       = (set(emb_t1_dict) & set(emb_t2_dict)) - set(sequences)
 
     if only_t1:
         print(f"  [WARN] {len(only_t1)} protéine(s) présentes dans h5_task1 "
@@ -472,9 +495,12 @@ def run(args):
     if only_t2:
         print(f"  [WARN] {len(only_t2)} protéine(s) présentes dans h5_task2 "
               f"uniquement → ignorées : {sorted(only_t2)[:5]}{'...' if len(only_t2)>5 else ''}")
+    if no_seq:
+        print(f"  [WARN] {len(no_seq)} protéine(s) sans séquence dans le CSV "
+              f"→ ignorées : {sorted(no_seq)[:5]}{'...' if len(no_seq)>5 else ''}")
     if not common_uids:
-        raise RuntimeError("Aucun UID commun entre h5_task1 et h5_task2 — "
-                           "vérifier les deux fichiers H5.")
+        raise RuntimeError("Aucun UID commun entre h5_task1, h5_task2 et le CSV — "
+                           "vérifier les fichiers d'entrée.")
     print(f"  → {len(common_uids)} protéines communes à traiter")
 
     # ── Prédiction + écriture CAID ───────────────────────────────────────────
@@ -500,14 +526,22 @@ def run(args):
             thr_t1    = args.threshold_task1,
             thr_t2    = args.threshold_task2,
         )
-        write_caid(uid, result, out_dir,
-            thr_t1=args.threshold_task1, thr_t2=args.threshold_task2)
+
+        L   = len(result["predicted_class"])
+        seq = sequences[uid][:L]   # tronquée à la même longueur que les embeddings
+        if len(seq) < L:
+            print(f"    [WARN] {uid} : séquence CSV plus courte ({len(seq)}) "
+                  f"que les embeddings ({L}) → tronqué à {len(seq)}")
+            L = len(seq)
+            result = {k: v[:L] for k, v in result.items()}
+
+        write_caid(uid, result, out_dir, sequence=seq,
+                   thr_t1=args.threshold_task1, thr_t2=args.threshold_task2)
 
         counts      = np.bincount(result["predicted_class"], minlength=3)
         n_struct   += counts[0]
         n_disorder += counts[1]
         n_binding  += counts[2]
-        L           = len(result["predicted_class"])
 
         print(f"  {uid:30s}  L={L:5d}  "
               f"struct={counts[0]:5d}  "
@@ -532,6 +566,8 @@ def parse_args():
                    help="Chemin vers le .pt du MLP task1 (structure vs disorder)")
     p.add_argument("--model_task2",     required=True,
                    help="Chemin vers le .pt du GRU task2 (disorder vs binding)")
+    p.add_argument("--csv",             required=True,
+                   help="CSV produit par fasta_to_input.py (colonnes : protein_id, sequence)")
     p.add_argument("--h5_task1",        required=True,
                    help="H5 distogram utilisé pour task1 (même que son training)")
     p.add_argument("--h5_task2",        required=True,
