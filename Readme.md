@@ -17,7 +17,7 @@ Singularity image for residue-level IDP/IDR prediction into three classes:
 The pipeline can be use with a docker image. You can download it from HubDocker
 
 > **SPIRAL Docker Image**
-> ([https://hub.docker.com/r/zulied/idp_distogram](https://hub.docker.com/r/zulied/idp_distogram))
+> ([https://hub.docker.com/r/zulied/spiral](https://hub.docker.com/r/zulied/spiral)))
 
 ### Requirements
 
