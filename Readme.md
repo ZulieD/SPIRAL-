@@ -1,6 +1,6 @@
 # Image singularity/docker for SPIRAL : Residue-level IDR Prediction Pipeline
 
-Singularity image for residue-level IDP/IDR prediction into three classes:
+Image for residue-level IDP/IDR prediction into three classes:
 **Structure**, **Disorder**, **Disorder-Binding**.
 
 ---
@@ -30,7 +30,7 @@ The pipeline can be use with a docker image. You can download it from HubDocker
 Download with 
 
 ```bash
-docker pull zulied/idp_distogram:v1.1
+docker pull zulied/spiral:v1.1
 ```
 
 ### Basic command 
@@ -39,7 +39,7 @@ docker pull zulied/idp_distogram:v1.1
 docker run --gpus all \
     -v <embeddings_dir>:<embeddings_dir> \
     -v <output_dir>:<output_dir> \
-    zulied/idp_distogram:v1.1 \
+    zulied/spiral:v1.1 \
     prediction \
     --embeddings <embeddings_dir> \
     --csv <embeddings_dir>/proteins.csv \
@@ -48,7 +48,7 @@ docker run --gpus all \
 
 ### SPIRAL Singularity/Apptainer Image
 
-The pipeline uses a container image. You can download it from Zenodo:
+The pipeline can also be uses with a Singularity image. You can download it from Zenodo:
 
 > **SPIRAL Apptainer/Singularity Image**
 > ([https://zenodo.org/records/21098730](https://zenodo.org/records/22247381))
@@ -139,9 +139,9 @@ Columns: `position`, `X for all line`, `score [0-1]`, `binary_label`.
 | Component | Details |
 |---|---|
 | Base image | `nvcr.io/nvidia/cuda:11.6.2-cudnn8-runtime-ubuntu20.04` |
-| Env `venv_idp` | Python 3.11 — distograms, prediction |
+| Env `venv_idp` | Python 3.11 + distograms, prediction |
 | Scripts | `/opt/scripts/` save in `src` |
-| ML models | `/opt/models/` save in `pretain_model` |
+| ML models | `/opt/models/` |
 
 ### Internal scripts
 
