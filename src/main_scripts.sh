@@ -3,19 +3,19 @@ set -x
 
 # ─────────────────────────── ARGUMENT UTILISATEUR ────────────────────────────
 if [ -z "$1" ]; then
-    echo "[ERROR] Usage: $0 <EMBEDDINGS_DIR_TEST>"
+    echo "[ERROR] Usage: $0 <EMBEDDINGS_DIR_TEST> <CSV_INPUT> <FINAL_OUTPUT_FOLDER> [PROTT5_FOLDER] [OUTPUT_DIR]"
     exit 1
 fi
 EMBEDDINGS_DIR_TEST="$1"
 
 if [ -z "$2" ]; then
-    echo "[ERROR] Usage: $0 <CSV_INPUT>"
+    echo "[ERROR] Usage: $0 <EMBEDDINGS_DIR_TEST> <CSV_INPUT> <FINAL_OUTPUT_FOLDER> [PROTT5_FOLDER] [OUTPUT_DIR]"
     exit 1
 fi
 CSV_INPUT="$2"
 
 if [ -z "$3" ]; then
-    echo "[ERROR] Usage: $0 <FINAL_OUTPUT_FOLDER>"
+    echo "[ERROR] Usage: $0 <EMBEDDINGS_DIR_TEST> <CSV_INPUT> <FINAL_OUTPUT_FOLDER> [PROTT5_FOLDER] [OUTPUT_DIR]"
     exit 1
 fi
 FINAL_OUTPUT_FOLDER="$3"
@@ -117,6 +117,7 @@ echo "=============================="
 python "$PYTHON_SCRIPTS_DIR/run_predictions.py" \
     --model_task1 /opt/models/full_task1_struct_vs_disorder_meanJ_MLP_optimized_MLP.pt \
     --model_task2 /opt/models/full_task2_disorder_vs_binding_conv2d_GRU_optimized_GRU.pt \
+    --csv       "$CSV_INPUT" \
     --h5_task1        "$OUTPUT_DIR_DIST/s1_prepared_embeddings_test.h5" \
     --h5_task2        "$OUTPUT_DIR_DIST/s2_prepared_embeddings_test.h5" \
     --out_dir         "$FINAL_OUTPUT_FOLDER" \
