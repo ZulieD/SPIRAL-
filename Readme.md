@@ -120,13 +120,13 @@ Q9Y4L1,MSSQPILENVSFKTLNDSGIELIGKSNVSRLQKLVTQDFNEQMRELLKAQLMQQ...
 
 ```
 >P04637
-1    X    0.8923    1
-2    X    0.3210    0
-3    X    0.7841    1
+1    M    0.8923    1
+2    E    0.3210    0
+3    E    0.7841    1
 
 ```
 
-Columns: `position`, `X for all line`, `score [0-1]`, `binary_label`.
+Columns: `position`, `amino_acid`, `score [0-1]`, `binary_label`.
 
 - **disorder/*.caid** — probability of being disordered or disorder-binding (Task 1)
 - **binding/*.caid** — probability of being a disorder-binding residue (Task 2)
