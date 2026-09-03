@@ -20,7 +20,7 @@ mkdir -p "$FINAL_OUTPUT"
 
 SIF_PATH="spiral.sif"
 
-sbatch -p amig \
+sbatch \
     --dependency=afterok:"$AF2_JOB_ID" \
     --job-name=idp_prediction \
     --cpus-per-task=4 \
